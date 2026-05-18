@@ -31,7 +31,7 @@ app.use('/api', limiter);
 // CORS Configuration
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173', // Vite default port
+    origin: process.env.CLIENT_URL || 'https://kasdra-mart.vercel.app', // Vite default port
     credentials: true,
   })
 );
