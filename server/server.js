@@ -29,9 +29,28 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 
 // CORS Configuration
+const allowedOrigins = [
+  'https://kasdra-mart.vercel.app',
+];
+
 app.use(
   cors({
-    origin: true, // Vite default port
+    origin: function (origin, callback) {
+      // Allow requests with no origin (Postman/mobile apps)
+      if (!origin) return callback(null, true);
+
+      // Allow main frontend domain
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      // Allow all Vercel preview deployments
+      if (origin.endsWith('.vercel.app')) {
+        return callback(null, true);
+      }
+
+      return callback(new Error('Not allowed by CORS'));
+    },
     credentials: true,
   })
 );
